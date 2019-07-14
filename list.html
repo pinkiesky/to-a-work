@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>На работу: водитель: маршруты</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=cf29c991-f995-413d-bebf-0842da45ad07" type="text/javascript"></script>
+    <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="container" class="container-list">
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title" style="background-image: url(/imgs/shot.png)">
+                <h2 class="mdl-card__title-text">10:30</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <div>Краснореченская 96 -> Мур.-Амурского 4</div>
+                <div>21 точка</div>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a href="/" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Начать маршрут
+                </a>
+            </div>
+        </div>
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title" style="background-image: url(/imgs/shot.png)">
+                <h2 class="mdl-card__title-text">13:00</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <div>Бийская 25 -> Школьная 24</div>
+                <div>10 точек</div>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a href="/" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Начать маршрут
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="map_utils.js" type="text/javascript"></script>
+    <script src="main.js" type="text/javascript"></script>
+</body>
+
+</html>
+

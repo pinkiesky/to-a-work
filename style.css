@@ -1,0 +1,48 @@
+#container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+#map {
+    min-width: 250px;
+    min-height: 250px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.list-full-height {
+    height: 100%;
+    overflow: scroll;
+
+    margin: 0;
+    padding: 0;
+}
+
+.container-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.demo-card-wide {
+    margin: .5rem;
+}
+
+.mdl-card__title {
+    height: 100px;
+}
+
+#bus {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(./imgs/bus.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    width: 28px;
+    height: 28px;
+}
