@@ -34,6 +34,14 @@
             Завершить поездку
           </button>
       </div>
+      <div class='small-text' style="padding-top: 1rem;">
+        Приблизительное время на поездку:
+        <span v-html="timeForRoad"></span>
+      </div>
+      <div class='small-text'>
+        Время в пути:
+        <span>{{ parseInt(timeInRoad / 60) }} мин.</span>
+      </div>
       <ul class="mdl-list">
         <li v-for="(street, index) in streets" :key="street" class="mdl-list__item mdl-list__item--two-line">
           <span class="mdl-list__item-primary-content">

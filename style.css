@@ -52,5 +52,10 @@
     flex-direction: row;
     padding: 1rem;
     padding-bottom: 0;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+
+.small-text {
+    padding: .2rem 1rem;
+    opacity: 0.9;
 }

@@ -23,27 +23,29 @@ var app = new Vue({
     streetsCoords: null,
     peoples: [
       'Автовокзал',
-      'Гуляева Ю.В., +7 909 972 53 85',
-      'Соболев П.Е., +7 962 235 12 48',
-      'Дементьева И.Д., +7 909 362 90 56',
-      'Рябов О.В., +7 963 110 07 00',
-      'Богданов С.Л., +7 909 035 42 11',
-      'Иванова У.А, +7 963 442 90 28',
-      'Соколов Я.Д, +7 909 905 91 45',
-      'Лыткина Д.Я., +7 962 300 41 66',
-      'Лукашенко Ж.Л., +7 909 764 77 54',
-      'Коломоец У.В., +7 962 601 74 17',
-      'Никонов Ф.Г., +7 909 706 25 11',
-      'Батейко Я.М., +7 962 664 20 07',
-      'Максимова Х.В., +7 909 725 57 04',
-      'Абрамова Н.А., +7 963 152 56 99',
+      'Юрий, +7 909 972 53 85',
+      'Павел, +7 962 235 12 48',
+      'Анна, +7 909 362 90 56',
+      'Олег, +7 963 110 07 00',
+      'Станислав, +7 909 035 42 11',
+      'Ульяна, +7 963 442 90 28',
+      'Ярослав, +7 909 905 91 45',
+      'Диана, +7 962 300 41 66',
+      'Жора, +7 909 764 77 54',
+      'Андрей, +7 962 601 74 17',
+      'Филипп, +7 909 706 25 11',
+      'Ярослава, +7 962 664 20 07',
+      'Христина, +7 909 725 57 04',
+      'Наталья, +7 963 152 56 99',
       'ООО "Вектор"'
     ],
     startCoords: [50.271413, 127.529051],
     zoom: 15,
     map: null,
+    route: null,
     busElem: document.getElementById('bus'),
     busCoord: null,
+    timeInRoad: 0,
   },
   async mounted() {
     ymaps.ready(this.yaInit);
@@ -53,6 +55,30 @@ var app = new Vue({
       return this.wayPoints
         .map(index => this.streets[index - 1]);
     },
+    closestBusPoint() {
+      if (!this.busCoords) {
+        return null;
+      }
+
+      const min = this.busCoords[0];
+      const minDist = Number.MAX_SAFE_INTEGER;
+      this.busCoords.forEach((coord) => {
+        const dist = Math.abs((coord[0] - min[0]) + (coord[1] - min[1]));
+        if (dist < minDist) {
+          min = coord;
+          minDist = dist;
+        }
+      });
+
+      return min;
+    },
+    timeForRoad() {
+      if (!this.route) {
+        return 'Н/Д';
+      }
+
+      return this.route.getHumanJamsTime();
+    }
   },
   watch: {
     busCoord(newPos) {
@@ -69,17 +95,36 @@ var app = new Vue({
     }
   },
   methods: {
-    recalcRoute() {
+    async recalcRoute() {
+      if (this.route) {
+        this.map.geoObjects.remove(this.route);
+        this.route = null;
+      }
 
+      this.route = await ymaps.route(this.normStreets, {
+        mapStateAutoApply: true
+      });
+      this.paths = this.route.getPaths();
+
+      this.busCoords = [];
+      this.paths.each((path) => {
+        this.busCoords = this.busCoords
+          .concat(path.geometry.getCoordinates());
+      });
+      
+      this.map.geoObjects.add(this.route);
+      // FIXME interval leak
+      setInterval(() => {
+        this.timeInRoad += 1;
+      });
     },
     async yaInit() {
-      console.log(this.normStreets);
       setInterval(() => {
         if (!this.busCoords) {
           return;
         }
 
-        this.busCoords[this.busCoords.$index || 0]
+        this.busCoord = this.busCoords[this.busCoords.$index || 0];
 
         this.busCoords.$index = (this.busCoords.$index || 0) + 1;
         this.busCoords.$index %= this.busCoords.length;
@@ -94,19 +139,7 @@ var app = new Vue({
         searchControlProvider: 'yandex#search'
       });
       
-      const route = await ymaps.route(this.normStreets, {
-        mapStateAutoApply: true
-      });
-      this.paths = route.getPaths();
-
-      this.busCoords = [];
-      this.paths.each((path, index) => {
-        console.log(index);
-        this.busCoords = this.busCoords
-          .concat(path.geometry.getCoordinates());
-      });
-      
-      this.map.geoObjects.add(route);
+      this.recalcRoute();
     },
   },
 });
