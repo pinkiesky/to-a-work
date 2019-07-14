@@ -46,3 +46,11 @@
     width: 28px;
     height: 28px;
 }
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    padding-bottom: 0;
+    justify-content: space-around;
+}
